@@ -5,6 +5,7 @@ precision mediump float;
 varying vec2 vTexCoord;
 uniform vec2 pos;
 uniform vec2 zoom;
+uniform int iterations;
 
 float map(float value, float min1, float max1, float min2, float max2) {
   return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
@@ -28,7 +29,7 @@ vec2 mandelbrot(vec2 a, vec2 c) {
 
 void main() {
 
-  vec2 coord = vec2(vTexCoord.x, 1.0 - vTexCoord.y);
+  vec2 coord = (vec2(vTexCoord.x, 1.0 - vTexCoord.y) - 0.5)*zoom;
   vec2 c = vec2(coord.x - pos.x, coord.y - pos.y);
   vec2 res = vec2(0.0, 0.0);
   for (int i = 0; i < 100; i++) {

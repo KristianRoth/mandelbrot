@@ -2,8 +2,10 @@ let texcoordShader: p5.Shader;
 const w = 1000
 const h = 1000
 
-let x = 1
-let y = 1
+let x = 0
+let y = 0
+let zoom = 1.05
+let iterations = 10000
 
 //used to verify if this script is loaded for github pages
 const loaded = () => true
@@ -24,7 +26,8 @@ function draw() {
   
   shader(texcoordShader);
   texcoordShader.setUniform('pos', [x, y])
-  texcoordShader.setUniform('zoom', [2.0, 2.0])
+  texcoordShader.setUniform('zoom', [zoom, zoom])
+  texcoordShader.setUniform('iterations', iterations)
   
   if(frameCount%100 === 0) {
     console.log("Framerate:", ceil(frameRate()))
@@ -33,15 +36,22 @@ function draw() {
   rect(0,0,w,h);
 }
 
-function mouseDragged(e: mouseEvent) {
-  x += e.movementX / w
-  y += e.movementY / h
-  console.log(x, y, e)
-  // prevent default
+function mouseDragged(e: MouseEvent) {
+  x += e.movementX*zoom / w
+  y += e.movementY*zoom / h
   return false;
 }
 
-type mouseEvent = {
-  movementX: number,
-  movementY: number
+
+function mouseWheel(e: WheelEvent) {
+  if (e.deltaY < 0) {
+    zoom *= 0.8
+  } else {
+    zoom /= 0.8
+  }
+}
+
+
+type ScrollEvent = {
+  delta: number
 }

@@ -37,7 +37,7 @@ function draw() {
 }
 function mouseDragged(e) {
     x += e.movementX * zoom / w;
-    y += e.movementY * zoom / h;
+    y += e.movementY * zoom / w;
     return false;
 }
 function mouseWheel(e) {

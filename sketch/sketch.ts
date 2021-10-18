@@ -51,7 +51,7 @@ function draw() {
 
 function mouseDragged(e: MouseEvent) {
   x += e.movementX*zoom / w
-  y += e.movementY*zoom / h
+  y += e.movementY*zoom / w
   return false;
 }
 

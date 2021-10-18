@@ -5,7 +5,7 @@ precision highp float;
 varying vec2 vTexCoord;
 uniform vec2 pos;
 uniform vec2 zoom;
-uniform int iterations;
+uniform vec2 resolution;
 
 vec2 double_set(float a) {
   vec2 z;
@@ -68,7 +68,7 @@ vec4 mandelbrot(vec4 a, vec4 c) {
 
 void main() {
   // dvec2 test = dvec2(0.0)
-  vec2 coord = (vec2(vTexCoord.x, 1.0 - vTexCoord.y) - 0.5)*zoom;
+  vec2 coord = (vec2(vTexCoord.x, 1.0 - vTexCoord.y) - 0.5)*resolution*zoom;
 
   vec4 c = vec4(double_set(coord.x - pos.x), double_set(coord.y - pos.y));
   vec4 res = vec4(0.0, 0.0, 0.0, 0.0);
@@ -82,8 +82,9 @@ void main() {
   if (length(res) < 2.0) {
     gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
   } else {
-    gl_FragColor = vec4((-cos(0.025*float(n))+1.0)/2.0,
+    gl_FragColor = vec4(
                       (-cos(0.08*float(n))+1.0)/2.0,
+                      (-cos(0.025*float(n))+1.0)/2.0,
                       (-cos(0.12*float(n))+1.0)/2.0,
                       1.0);
   }
